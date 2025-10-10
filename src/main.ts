@@ -1,8 +1,6 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import "./style.css";
 
 let count = 0;
-
 
 document.body.innerHTML = `
   <button id="lbutton"> 🦎
@@ -18,7 +16,7 @@ button.addEventListener("click", () => {
   countDisplay.textContent = `${count} lizards`;
 });
 
-let lastTime = performance.now()
+let lastTime = performance.now();
 
 function update() {
   const current = performance.now();
