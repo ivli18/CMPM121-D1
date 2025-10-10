@@ -13,8 +13,7 @@ document.body.innerHTML = `
 const button = document.getElementById("lbutton") as HTMLButtonElement;
 const countDisplay = document.getElementById("counter") as HTMLDivElement;
 
-
 button.addEventListener("click", () => {
   count++;
-  countDisplay.textContent = `${count} lizards`
-})
+  countDisplay.textContent = `${count} lizards`;
+});
