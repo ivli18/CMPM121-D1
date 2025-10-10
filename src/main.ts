@@ -17,3 +17,8 @@ button.addEventListener("click", () => {
   count++;
   countDisplay.textContent = `${count} lizards`;
 });
+
+setInterval(() => {
+  count++;
+  countDisplay.textContent = `${count} lizards`;
+}, 1000);
