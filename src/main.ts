@@ -3,8 +3,8 @@ import "./style.css";
 
 let count = 0;
 
+
 document.body.innerHTML = `
-  <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
   <button id="lbutton"> 🦎
   <div id="counter"> 0 lizards </div>
 
@@ -18,7 +18,16 @@ button.addEventListener("click", () => {
   countDisplay.textContent = `${count} lizards`;
 });
 
-setInterval(() => {
-  count++;
-  countDisplay.textContent = `${count} lizards`;
-}, 1000);
+let lastTime = performance.now()
+
+function update() {
+  const current = performance.now();
+  const time = current - lastTime;
+  count += time / 1000;
+
+  lastTime = current;
+  countDisplay.textContent = `${count.toFixed(1)} lizards`;
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
