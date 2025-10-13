@@ -7,15 +7,16 @@ let lastTime = performance.now();
 interface Upgrade {
   id: string;
   name: string;
+  baseCost: number;
   cost: number;
   rate: number;
   count: number;
 }
 
 const upgrades: Upgrade[] = [
-  { id: "A", name: "Bugs 🐜", cost: 10, rate: .1, count: 0 },
-  { id: "B", name: "Worms 🪱", cost: 100, rate: 2, count: 0 },
-  { id: "C", name: "Berries 🍓", cost: 1000, rate: 50, count: 0 },
+  { id: "A", name: "Bugs 🐜", baseCost: 10, cost: 10, rate: .1, count: 0 },
+  { id: "B", name: "Worms 🪱", baseCost: 10, cost: 100, rate: 2, count: 0 },
+  { id: "C", name: "Berries 🍓", baseCost: 10, cost: 1000, rate: 50, count: 0 },
 ];
 
 let buttonsHTML = "";
@@ -48,6 +49,7 @@ function listeners(upgrade: Upgrade) {
   button.addEventListener("click", () => {
     if (count >= upgrade.cost) {
       count -= upgrade.cost;
+      upgrade.cost = upgrade.cost * 1.15;
       upgrade.count++;
       growthRate += upgrade.rate;
 
@@ -86,7 +88,10 @@ function updateButtons() {
     const button = document.getElementById(
       `buy-${upgrade.id}`,
     ) as HTMLButtonElement;
-    if (button) button.disabled = count < upgrade.cost;
+    if (button) {
+      button.disabled = count < upgrade.cost;
+      button.textContent = `Buy ${upgrade.name} (${upgrade.cost.toFixed(1)})`;
+    }
   }
 }
 
