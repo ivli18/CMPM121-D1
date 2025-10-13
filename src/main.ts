@@ -35,19 +35,28 @@ document.head.appendChild(style);
 const container = document.createElement("div");
 document.body.appendChild(container);
 
-const lbutton = Object.assign(document.createElement("button"), { id: "lbutton", innerHTML: "🍌" });
+const lbutton = Object.assign(document.createElement("button"), {
+  id: "lbutton",
+  innerHTML: "🍌",
+});
 container.appendChild(lbutton);
 
-const countDisplay = Object.assign(document.createElement("div"), { id: "counter" });
+const countDisplay = Object.assign(document.createElement("div"), {
+  id: "counter",
+});
 countDisplay.textContent = "0 🍌";
 container.appendChild(countDisplay);
 
-const growthDisplay = Object.assign(document.createElement("div"), { id: "growth" });
+const growthDisplay = Object.assign(document.createElement("div"), {
+  id: "growth",
+});
 growthDisplay.textContent = "+0 🍌/sec";
 container.appendChild(growthDisplay);
 
-upgrades.forEach(upg => {
-  const button = Object.assign(document.createElement("button"), { id: `buy-${upg.id}` });
+upgrades.forEach((upg) => {
+  const button = Object.assign(document.createElement("button"), {
+    id: `buy-${upg.id}`,
+  });
   button.disabled = true;
   button.innerHTML = `
     <div style="text-align:center">
@@ -84,8 +93,10 @@ function updateGrowth() {
 }
 
 function updateButtons() {
-  upgrades.forEach(upg => {
-    const button = document.getElementById(`buy-${upg.id}`) as HTMLButtonElement;
+  upgrades.forEach((upg) => {
+    const button = document.getElementById(
+      `buy-${upg.id}`,
+    ) as HTMLButtonElement;
     if (button) {
       button.disabled = count < upg.cost;
       const costLine = button.querySelector("div > div:last-child");
