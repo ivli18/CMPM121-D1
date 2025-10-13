@@ -12,11 +12,41 @@ interface Item {
 }
 
 const availableItems: Item[] = [
-  { id: "Z", name: "Efficient Harvesting 💪", cost: 50, rate: 0, description: "Strong arms! (More 🍌 per click!)" },
-  { id: "A", name: "Tasty Compost 🪱", cost: 10, rate: 0.1, description: "Richer soil! (+0.1🍌/s)" },
-  { id: "B", name: "Monkey Worker 🐒", cost: 100, rate: 2, description: "Picks nonstop! (+2🍌/s)" },
-  { id: "C", name: "Banana Tree 🌳", cost: 1000, rate: 50, description: "Produces fast! (+50🍌/s)" },
-  { id: "D", name: "Growth Enhancer 🪄", cost: 5000, rate: 500, description: "Magic speed! (+500🍌/s)" },
+  {
+    id: "Z",
+    name: "Efficient Harvesting 💪",
+    cost: 50,
+    rate: 0,
+    description: "Strong arms! (More 🍌 per click!)",
+  },
+  {
+    id: "A",
+    name: "Tasty Compost 🪱",
+    cost: 10,
+    rate: 0.1,
+    description: "Richer soil! (+0.1🍌/s)",
+  },
+  {
+    id: "B",
+    name: "Monkey Worker 🐒",
+    cost: 100,
+    rate: 2,
+    description: "Picks nonstop! (+2🍌/s)",
+  },
+  {
+    id: "C",
+    name: "Banana Tree 🌳",
+    cost: 1000,
+    rate: 50,
+    description: "Produces fast! (+50🍌/s)",
+  },
+  {
+    id: "D",
+    name: "Growth Enhancer 🪄",
+    cost: 5000,
+    rate: 500,
+    description: "Magic speed! (+500🍌/s)",
+  },
 ];
 
 const style = document.createElement("style");
@@ -46,13 +76,20 @@ document.head.appendChild(style);
 const container = document.createElement("div");
 document.body.appendChild(container);
 
-const lbutton = Object.assign(document.createElement("button"), { id: "lbutton", innerHTML: "🍌" });
-const countDisplay = Object.assign(document.createElement("div"), { id: "counter" });
-const growthDisplay = Object.assign(document.createElement("div"), { id: "growth" });
+const lbutton = Object.assign(document.createElement("button"), {
+  id: "lbutton",
+  innerHTML: "🍌",
+});
+const countDisplay = Object.assign(document.createElement("div"), {
+  id: "counter",
+});
+const growthDisplay = Object.assign(document.createElement("div"), {
+  id: "growth",
+});
 
 container.append(lbutton, countDisplay, growthDisplay);
 
-availableItems.forEach(item => {
+availableItems.forEach((item) => {
   const button = document.createElement("button");
   button.id = `buy-${item.id}`;
   button.disabled = true;
@@ -97,8 +134,10 @@ function updateGrowth() {
 }
 
 function updateButtons() {
-  availableItems.forEach(item => {
-    const button = document.getElementById(`buy-${item.id}`) as HTMLButtonElement;
+  availableItems.forEach((item) => {
+    const button = document.getElementById(
+      `buy-${item.id}`,
+    ) as HTMLButtonElement;
     if (button) {
       button.disabled = count < item.cost;
       const costElem = button.querySelector(".item-cost");
