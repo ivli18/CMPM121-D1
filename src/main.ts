@@ -1,5 +1,3 @@
-import "./style.css";
-
 let count = 0;
 let growthRate = 0;
 let lastTime = performance.now();
@@ -7,103 +5,103 @@ let lastTime = performance.now();
 interface Upgrade {
   id: string;
   name: string;
-  baseCost: number;
   cost: number;
   rate: number;
-  count: number;
 }
 
 const upgrades: Upgrade[] = [
-  { id: "A", name: "Bugs 🐜", baseCost: 10, cost: 10, rate: .1, count: 0 },
-  { id: "B", name: "Worms 🪱", baseCost: 10, cost: 100, rate: 2, count: 0 },
-  { id: "C", name: "Berries 🍓", baseCost: 10, cost: 1000, rate: 50, count: 0 },
+  { id: "A", name: "Tasty Compost 🪱", cost: 10, rate: 0.1 },
+  { id: "B", name: "Monkey Worker 🐒", cost: 100, rate: 2 },
+  { id: "C", name: "Banana Tree 🌳", cost: 1000, rate: 50 },
 ];
 
-let buttonsHTML = "";
-let statusHTML = "";
-
-for (const upgrade of upgrades) {
-  buttonsHTML +=
-    `<button id="buy-${upgrade.id}" disabled>Buy ${upgrade.name} (${upgrade.cost} lizards)</button>`;
-  statusHTML +=
-    `<div id="status-${upgrade.id}">${upgrade.name}: ${upgrade.count}</div>`;
-}
-
-document.body.innerHTML = `
-  <button id="lbutton"> 🦎 </button>
-  <div id="counter"> 0 lizards </div>
-
-  ${buttonsHTML}
-  <div id="growth">Growth rate: 0 /s</div>
-  ${statusHTML}
+const style = document.createElement("style");
+style.textContent = `
+  body { text-align: center; font-family: sans-serif; margin: 20px; }
+  #lbutton {
+    font-size: 4rem; padding: 40px 60px; margin: 20px auto;
+    border: none; border-radius: 50%;
+    background: linear-gradient(145deg, #ffdb4d, #ffa84d);
+    color: #5e3c00; cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  #lbutton:hover { transform: scale(1.05); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+  #lbutton:active { transform: scale(0.95); }
+  #counter, #growth { font-size: 1.5em; margin: 10px 0; font-weight: bold; }
+  button { margin: 8px; padding: 10px 20px; }
 `;
+document.head.appendChild(style);
 
-upgrades.forEach(listeners);
-updateButtons();
+const container = document.createElement("div");
+document.body.appendChild(container);
 
-function listeners(upgrade: Upgrade) {
-  const button = document.getElementById(
-    `buy-${upgrade.id}`,
-  ) as HTMLButtonElement;
+const lbutton = Object.assign(document.createElement("button"), { id: "lbutton", innerHTML: "🍌" });
+container.appendChild(lbutton);
+
+const countDisplay = Object.assign(document.createElement("div"), { id: "counter" });
+countDisplay.textContent = "0 🍌";
+container.appendChild(countDisplay);
+
+const growthDisplay = Object.assign(document.createElement("div"), { id: "growth" });
+growthDisplay.textContent = "+0 🍌/sec";
+container.appendChild(growthDisplay);
+
+upgrades.forEach(upg => {
+  const button = Object.assign(document.createElement("button"), { id: `buy-${upg.id}` });
+  button.disabled = true;
+  button.innerHTML = `
+    <div style="text-align:center">
+      <div><strong>${upg.name}</strong></div>
+      <div style="font-size:0.8em">Cost: ${upg.cost.toFixed(1)} 🍌</div>
+    </div>
+  `;
+  container.appendChild(button);
 
   button.addEventListener("click", () => {
-    if (count >= upgrade.cost) {
-      count -= upgrade.cost;
-      upgrade.cost = upgrade.cost * 1.15;
-      upgrade.count++;
-      growthRate += upgrade.rate;
-
+    if (count >= upg.cost) {
+      count -= upg.cost;
+      growthRate += upg.rate;
+      upg.cost *= 1.15;
       updateCounter();
-      updateGrowthDisplay();
+      updateGrowth();
       updateButtons();
     }
   });
-}
+});
 
-const button = document.getElementById("lbutton") as HTMLButtonElement;
-const countDisplay = document.getElementById("counter") as HTMLDivElement;
-const growthDisplay = document.getElementById("growth") as HTMLDivElement;
-
-button.addEventListener("click", () => {
+lbutton.addEventListener("click", () => {
   count++;
   updateCounter();
   updateButtons();
 });
 
 function updateCounter() {
-  countDisplay.textContent = `${count.toFixed(1)} lizards`;
+  countDisplay.textContent = `${count.toFixed(1)} 🍌`;
 }
-function updateGrowthDisplay() {
-  growthDisplay.textContent = `Growth rate: ${growthRate.toFixed(1)} /s`;
-  for (const upgrade of upgrades) {
-    const status = document.getElementById(`status-${upgrade.id}`);
-    if (status) {
-      status.textContent = `${upgrade.name}: ${upgrade.count}`;
-    }
-  }
+
+function updateGrowth() {
+  growthDisplay.textContent = `+${growthRate.toFixed(1)} 🍌/sec`;
 }
 
 function updateButtons() {
-  for (const upgrade of upgrades) {
-    const button = document.getElementById(
-      `buy-${upgrade.id}`,
-    ) as HTMLButtonElement;
+  upgrades.forEach(upg => {
+    const button = document.getElementById(`buy-${upg.id}`) as HTMLButtonElement;
     if (button) {
-      button.disabled = count < upgrade.cost;
-      button.textContent = `Buy ${upgrade.name} (${upgrade.cost.toFixed(1)})`;
+      button.disabled = count < upg.cost;
+      const costLine = button.querySelector("div > div:last-child");
+      if (costLine) costLine.textContent = `Cost: ${upg.cost.toFixed(1)} 🍌`;
     }
-  }
+  });
 }
 
-function update() {
+function gameLoop() {
   const now = performance.now();
-  const time = now - lastTime;
+  const dt = (now - lastTime) / 1000;
   lastTime = now;
-
-  count += growthRate * (time / 1000);
+  count += growthRate * dt;
   updateCounter();
   updateButtons();
-  requestAnimationFrame(update);
+  requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(update);
+requestAnimationFrame(gameLoop);
