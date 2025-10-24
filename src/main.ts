@@ -13,35 +13,35 @@ interface Item {
 
 const availableItems: Item[] = [
   {
-    id: "Z",
+    id: "clickUpgrade",
     name: "Efficient Harvesting 💪",
     cost: 50,
     rate: 0,
     description: "Strong arms! (More 🍌 per click!)",
   },
   {
-    id: "A",
+    id: "wormUpgrade",
     name: "Tasty Compost 🪱",
     cost: 10,
     rate: 0.1,
     description: "Richer soil! (+0.1🍌/s)",
   },
   {
-    id: "B",
+    id: "monkeyUpgrade",
     name: "Monkey Worker 🐒",
     cost: 100,
     rate: 2,
     description: "Picks nonstop! (+2🍌/s)",
   },
   {
-    id: "C",
+    id: "treeUpgrade",
     name: "Banana Tree 🌳",
     cost: 1000,
     rate: 50,
     description: "Produces fast! (+50🍌/s)",
   },
   {
-    id: "D",
+    id: "magicUpgrade",
     name: "Growth Enhancer 🪄",
     cost: 5000,
     rate: 500,
@@ -105,7 +105,7 @@ availableItems.forEach((item) => {
   button.addEventListener("click", () => {
     if (count >= item.cost) {
       count -= item.cost;
-      if (item.id === "Z") {
+      if (item.id === "clickUpgrade") {
         clickPower += 1;
         item.cost *= 1.10;
       } else {
