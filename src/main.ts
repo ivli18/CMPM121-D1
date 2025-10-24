@@ -1,8 +1,10 @@
+// ===== GAME STATE =====
 let count = 0;
 let growthRate = 0;
 let lastTime = performance.now();
 let clickPower = 1;
 
+// ===== ITEM DEFINITIONS =====
 interface Item {
   id: string;
   name: string;
@@ -10,7 +12,6 @@ interface Item {
   rate: number;
   description: string;
 }
-
 const availableItems: Item[] = [
   {
     id: "clickUpgrade",
@@ -49,6 +50,7 @@ const availableItems: Item[] = [
   },
 ];
 
+// ===== UI FORMATTING =====
 const style = document.createElement("style");
 style.textContent = `
   body { text-align: center; font-family: sans-serif; margin: 20px; background-color: #fff1b8; }
@@ -73,9 +75,9 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// ===== UI CONTAINERS =====
 const container = document.createElement("div");
 document.body.appendChild(container);
-
 const lbutton = Object.assign(document.createElement("button"), {
   id: "lbutton",
   innerHTML: "🍌",
@@ -86,9 +88,7 @@ const countDisplay = Object.assign(document.createElement("div"), {
 const growthDisplay = Object.assign(document.createElement("div"), {
   id: "growth",
 });
-
 container.append(lbutton, countDisplay, growthDisplay);
-
 availableItems.forEach((item) => {
   const button = document.createElement("button");
   button.id = `buy-${item.id}`;
@@ -101,7 +101,7 @@ availableItems.forEach((item) => {
     </div>
   `;
   container.appendChild(button);
-
+  // ===== UPGRADE EVENT LISTENERS =====
   button.addEventListener("click", () => {
     if (count >= item.cost) {
       count -= item.cost;
@@ -119,12 +119,14 @@ availableItems.forEach((item) => {
   });
 });
 
+// ===== MAIN BUTTON EVENT LISTENER =====
 lbutton.addEventListener("click", () => {
   count += clickPower;
   updateCounter();
   updateButtons();
 });
 
+// ===== GAME LOGIC =====
 function updateCounter() {
   countDisplay.textContent = `${count.toFixed(1)} 🍌`;
 }
@@ -132,7 +134,6 @@ function updateCounter() {
 function updateGrowth() {
   growthDisplay.textContent = `+${growthRate.toFixed(1)} 🍌/sec`;
 }
-
 function updateButtons() {
   availableItems.forEach((item) => {
     const button = document.getElementById(
@@ -145,7 +146,6 @@ function updateButtons() {
     }
   });
 }
-
 function gameLoop() {
   const now = performance.now();
   const dt = (now - lastTime) / 1000;
@@ -155,5 +155,4 @@ function gameLoop() {
   updateButtons();
   requestAnimationFrame(gameLoop);
 }
-
 requestAnimationFrame(gameLoop);
