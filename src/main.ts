@@ -89,6 +89,8 @@ const growthDisplay = Object.assign(document.createElement("div"), {
   id: "growth",
 });
 container.append(lbutton, countDisplay, growthDisplay);
+
+// ===== UPDATE BUTTONS =====
 availableItems.forEach((item) => {
   const button = document.createElement("button");
   button.id = `buy-${item.id}`;
@@ -101,7 +103,11 @@ availableItems.forEach((item) => {
     </div>
   `;
   container.appendChild(button);
-  // ===== UPGRADE EVENT LISTENERS =====
+});
+
+// ===== UPGRADE EVENT LISTENERS =====
+availableItems.forEach((item) => {
+  const button = document.getElementById(`buy-${item.id}`) as HTMLButtonElement;
   button.addEventListener("click", () => {
     if (count >= item.cost) {
       count -= item.cost;
