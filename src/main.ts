@@ -55,7 +55,30 @@ availableItems.forEach((item) => itemCounts[item.id] = 0);
 // ===== UI FORMATTING =====
 const style = document.createElement("style");
 style.textContent = `
-  body { text-align: center; font-family: sans-serif; margin: 20px; background-color: #fff1b8; }
+  body {
+    text-align: center;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #fff1b8;
+    background-image: url('https://as2.ftcdn.net/jpg/03/85/72/67/1000_F_385726776_2KgzDmzFHanqlx9oPKbQusB9p0GqPCLH.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: -1;
+    pointer-events: none;
+  }
+
   #lbutton {
     font-size: 4rem; padding: 40px 60px; margin: 20px auto;
     border: none; border-radius: 50%;
