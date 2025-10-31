@@ -1,3 +1,10 @@
 # CMPM 121 D1 Project
 
-This is the starting point for your CMPM 121 D1 project. The goal of this project is to create a simple web application using TypeScript, Vite, and modern web development practices. Students should make sure to remove _this_ content from their README.md file and replace it with their own project documentation.
+Click 🍌 to collect bananas. Buy upgrades to grow them faster — from compost worms to magic spells.\
+How many bananas can you harvest before you stop clicking?
+
+## Credits
+
+- The idea for a persistent stats display was inspired by the clean UI layout in Taylor Pearce's D1 game:\
+  [https://t4ylo.github.io/cmpm-121-25-d1-taylorpearce/](https://t4ylo.github.io/cmpm-121-25-d1-taylorpearce/)
+- All code and design implementation are my own.
